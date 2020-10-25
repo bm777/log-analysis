@@ -12,6 +12,10 @@ Window {
     width: 1280
     height: 840
     visible: true
+    maximumHeight: height
+    maximumWidth: width
+    minimumHeight: height
+    minimumWidth: width
     //color: "#e0ffff"
     // ===== [0] ======
 
@@ -22,24 +26,20 @@ Window {
     Login {
         visible: false
     }
-    Register {
-        visible: false
-    }
+
     Gry {
         visible: false
     }
     // ==================================================================================
 
-    // ===================================dahboard======================================
+    // ================================== dahboard ======================================
     System {
+        id: system
         visible: true
     }
 
-    Right {
-        visible: true
-    }
 
-    // =================================================================================
+    // ==================================================================================
 
 
 }

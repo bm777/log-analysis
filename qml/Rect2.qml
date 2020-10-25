@@ -11,7 +11,7 @@ Item {
         color: "green"
         width: 60
         height: 60
-        x: root.width * 0.715
+        x: root.width * 0.65
         y: root.height * 0.46
         SequentialAnimation on x {
             id: xAnim
@@ -19,15 +19,15 @@ Item {
             loops: Animation.Infinite
 
             NumberAnimation {
-                from: root.width * 0.7 +0
-                to: root.width * 0.7 + 350
+                from: root.width * 0.65 +0
+                to: root.width * 0.65 + 325
                 duration: 700
                 easing.type: Easing.InOutQuad
             }
 
             NumberAnimation {
-                from: root.width * 0.7 + 350
-                to: root.width * 0.7 +0
+                from: root.width * 0.65 + 325
+                to: root.width * 0.65 +0
                 duration: 700
                 easing.type: Easing.InOutQuad
             }

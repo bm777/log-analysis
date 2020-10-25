@@ -18,15 +18,15 @@ Item {
                 target: rectangle
                 property: "x"
                 duration: 700
-                from: root.width * 0.7 +0
-                to: root.width * 0.7 + 350
+                from: root.width * 0.65 +0
+                to: root.width * 0.65 + 325
             }
             NumberAnimation {
                 target: rectangle
                 property: "x"
                 duration: 700
-                from: root.width * 0.7 + 350
-                to: root.width * 0.7 +0
+                from: root.width * 0.65 + 325
+                to: root.width * 0.65 +0
             }
             PauseAnimation {
                 duration: 150

@@ -18,38 +18,41 @@ Item {
 
     Image {
         id: _left_screen
-        source: "../images/screen.jpg"
-//            anchors.fill: parent
+        source: "../images/circuit.jpg"
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
         smooth: true
-        width: 3353 * 0.28
-        height: 2514 * 0.28
+        width: 4000 * 0.124
+        height: 6000 * 0.102
 
-        x: root.width * 0.05
-        y: root.height * 0.15
+//        x: root.width * 0.05
+//        y: root.height * 0.15
     }
 
 
 
+//    DropShadow {
+//        anchors.fill: _left_screen
+//        horizontalOffset: 10
+//        verticalOffset: 10
+//        radius: 13.0
+//        samples: 17
+//        color: "#80000000"
+//        source: _left_screen
+//    }
 
-    DropShadow {
-        anchors.fill: _left_screen
-        horizontalOffset: 10
-        verticalOffset: 10
-        radius: 13.0
-        samples: 17
-        color: "#80000000"
-        source: _left_screen
-    }
-
-     FastBlur {
-        anchors.fill: _left_screen
-        source: _left_screen
-        radius: 32
-    }
+//     FastBlur {
+//        anchors.fill: _left_screen
+//        source: _left_screen
+//        radius: 32
+//    }
      Item {
          id: tmp_logo
-         x: root.width * 0.17
-         y: root.height * 0.20
+         x: _leftview.width / 4 - 47
+         y: _leftview.height / 4 - 87
+         visible: true
+//         anchors.verticalCenter: parent.verticalCenter
+//         anchors.horizontalCenter: parent.horizontalCenter
 
          Rectangle {
              width: 480
@@ -63,6 +66,7 @@ Item {
 
              Rectangle {
 
+
                  width: 480
                  height: 100
                  color: "#2c2c54"
@@ -70,7 +74,7 @@ Item {
              }
              Text {
 
-                 text: qsTr("Get In")
+                 text: qsTr("Admin access")
                  color: "white"
                  font.pointSize: 40
                  x: root.width * 0.09
@@ -161,6 +165,7 @@ Item {
                 id: register
                 x: 90
                 y: 430
+                visible: false
                 text: "Register"
                 contentItem: Text {
                     text: register.text
