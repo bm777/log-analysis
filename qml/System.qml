@@ -126,6 +126,7 @@ Item {
                     radius: 10
                     color: state === "InMouse" ? "#189c88ff" : "transparent"
 
+                    // ===========================================
                     state: "OutMouse"
                     states: [
                         State {
@@ -143,10 +144,11 @@ Item {
                         State {
                             name: "Clicked"
                             PropertyChanges {
-                                target: _left; color: "#179c88ff"; //159c88ff
+                                target: _left; color: "#189c88ff"; //159c88ff
                             }
                         }
                     ]
+                    // ===========================================
                     MouseArea {
                         anchors.fill: _left
                         hoverEnabled: true
@@ -226,23 +228,52 @@ Item {
                     x: -15
                     y: -10
                     radius: 10
-                    color: valueSource.state_config === "InMouse" ? "#189c88ff" : "transparent"
+                    color: state === "InMouse" ? "#189c88ff" : "transparent"
+                    // ===========================================
+                    state: "OutMouse"
+                    states: [
+                        State {
+                            name: "OutMouse"
+                            PropertyChanges {
+                                target: _middle; color: "transparent"
+                            }
+                        },
+                        State {
+                            name: "InMouse"
+                            PropertyChanges {
+                                target: _middle; color: "#189c88ff"
+                            }
+                        },
+                        State {
+                            name: "Clicked"
+                            PropertyChanges {
+                                target: _middle; color: "#189c88ff"; //159c88ff
+                            }
+                        }
+                    ]
+                    // ===========================================
                     MouseArea {
                         anchors.fill: _middle // here
                         hoverEnabled: true
                         onEntered: {
-                            valueSource.state_config = "InMouse";
+                            if (_middle.state === "Clicked"){
+                                _middle.state = "Clicked";
+                            }else{
+                                _middle.state = "InMouse"
+                            }
                         }
                         onExited: {
-                            if (valueSource.state_config === "OutMouse"){
-                                valueSource.state_config = "InMouse";
+                            if (_middle.state === "InMouse"){
+                                _middle.state = "OutMouse";
                             }
-                            if (valueSource.state_config !== "OutMouse"){
-                                valueSource.state_config = "OutMouse";
+                            if (_middle.state === "Clicked"){
+                                _middle.state = "Clicked";
                             }
                         }
                         onClicked: {
-
+                            if(_left.state === "Clicked"){
+                             _middle.state = "Clicked";
+                           }
                         }
                     }
                 }
@@ -302,23 +333,52 @@ Item {
                     x: -15
                     y: -10
                     radius: 10
-                    color: valueSource.state_result === "InMouse" ? "#189c88ff" : "transparent"
+                    color: state === "InMouse" ? "#189c88ff" : "transparent"
+                    // ===========================================
+                    state: "OutMouse"
+                    states: [
+                        State {
+                            name: "OutMouse"
+                            PropertyChanges {
+                                target: _right; color: "transparent"
+                            }
+                        },
+                        State {
+                            name: "InMouse"
+                            PropertyChanges {
+                                target: _right; color: "#189c88ff"
+                            }
+                        },
+                        State {
+                            name: "Clicked"
+                            PropertyChanges {
+                                target: _right; color: "#189c88ff"; //159c88ff
+                            }
+                        }
+                    ]
+                    // ===========================================
                     MouseArea {
                         anchors.fill: _right
                         hoverEnabled: true
                         onEntered: {
-                            valueSource.state_result = "InMouse";
+                            if (_right.state === "Clicked"){
+                                _right.state = "Clicked";
+                            }else{
+                                _right.state = "InMouse"
+                            }
                         }
                         onExited: {
-                            if (valueSource.state_result === "OutMouse"){
-                                valueSource.state_result = "InMouse";
+                            if (_right.state === "InMouse"){
+                                _right.state = "OutMouse";
                             }
-                            if (valueSource.state_result !== "OutMouse"){
-                                valueSource.state_result = "OutMouse";
+                            if (_right.state === "Clicked"){
+                                _right.state = "Clicked";
                             }
                         }
                         onClicked: {
-
+                            if(_middle.state === "Clicked"){
+                             _right.state = "Clicked";
+                           }
                         }
                     }
                 }
