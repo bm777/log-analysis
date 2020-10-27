@@ -6,6 +6,8 @@ Item {
     height: root.height
     x: 0
     y:0
+
+
     Rectangle {
         width: parent.width
         id: roundRect
@@ -28,6 +30,18 @@ Item {
             radius: 10
             width: 600
             color: "white"
+            Item {
+                id: general_1
+                width: rect.width
+                height: rect.height
+                Text {
+                    anchors.centerIn: general_1
+                    text: qsTr("Commençer par importer le fichier <b>log</b> pour les analyses.")
+                    color: "#a8000000"
+                    font.pointSize: 15
+                    font.italic: true
+                }
+            }
         }
         DropShadow {
         anchors.fill: rect
@@ -61,6 +75,7 @@ Item {
             Item {
                 height: 220
                 width: 200
+
                 Rectangle {
                     radius: width / 2
                     width: 90
@@ -101,6 +116,61 @@ Item {
                         }
                     }
                 }
+                // ============================== button hover
+                Rectangle {
+                    id: _left
+                    width: 230
+                    height: 230
+                    x: -15
+                    y: -10
+                    radius: 10
+                    color: state === "InMouse" ? "#189c88ff" : "transparent"
+
+                    state: "OutMouse"
+                    states: [
+                        State {
+                            name: "OutMouse"
+                            PropertyChanges {
+                                target: _left; color: "transparent"
+                            }
+                        },
+                        State {
+                            name: "InMouse"
+                            PropertyChanges {
+                                target: _left; color: "#189c88ff"
+                            }
+                        },
+                        State {
+                            name: "Clicked"
+                            PropertyChanges {
+                                target: _left; color: "#179c88ff"; //159c88ff
+                            }
+                        }
+                    ]
+                    MouseArea {
+                        anchors.fill: _left
+                        hoverEnabled: true
+                        onEntered: {
+                            if (_left.state === "Clicked"){
+                                _left.state = "Clicked";
+                            }else{
+                                _left.state = "InMouse"
+                            }
+                        }
+                        onExited: {
+                            if (_left.state === "InMouse"){
+                                _left.state = "OutMouse";
+                            }
+                            if (_left.state === "Clicked"){
+                                _left.state = "Clicked";
+                            }
+                        }
+                        onClicked: {
+                            _left.state = "Clicked";
+                        }
+                    }
+                }
+                // ==============================
             }
             // ============================================================================
 
@@ -148,6 +218,35 @@ Item {
                         }
                     }
                 }
+                // ============================== button hover
+                Rectangle {
+                    id: _middle // here
+                    width: 230
+                    height: 230
+                    x: -15
+                    y: -10
+                    radius: 10
+                    color: valueSource.state_config === "InMouse" ? "#189c88ff" : "transparent"
+                    MouseArea {
+                        anchors.fill: _middle // here
+                        hoverEnabled: true
+                        onEntered: {
+                            valueSource.state_config = "InMouse";
+                        }
+                        onExited: {
+                            if (valueSource.state_config === "OutMouse"){
+                                valueSource.state_config = "InMouse";
+                            }
+                            if (valueSource.state_config !== "OutMouse"){
+                                valueSource.state_config = "OutMouse";
+                            }
+                        }
+                        onClicked: {
+
+                        }
+                    }
+                }
+                // ==============================
             }
             // ============================================================================
 
@@ -195,6 +294,35 @@ Item {
                         }
                     }
                 }
+                // ============================== button hover
+                Rectangle {
+                    id: _right
+                    width: 230
+                    height: 230
+                    x: -15
+                    y: -10
+                    radius: 10
+                    color: valueSource.state_result === "InMouse" ? "#189c88ff" : "transparent"
+                    MouseArea {
+                        anchors.fill: _right
+                        hoverEnabled: true
+                        onEntered: {
+                            valueSource.state_result = "InMouse";
+                        }
+                        onExited: {
+                            if (valueSource.state_result === "OutMouse"){
+                                valueSource.state_result = "InMouse";
+                            }
+                            if (valueSource.state_result !== "OutMouse"){
+                                valueSource.state_result = "OutMouse";
+                            }
+                        }
+                        onClicked: {
+
+                        }
+                    }
+                }
+                // ==============================
             }
             // ============================================================================
 
