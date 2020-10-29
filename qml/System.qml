@@ -1,7 +1,9 @@
 import QtQuick 2.15
 import QtGraphicalEffects 1.0
 //import QtQuick.Dialogs 1.2
+import QtQuick.Controls 2.15
 import Qt.labs.platform 1.1
+import "operations.js" as Logic
 
 Item {
     width: root.width
@@ -9,7 +11,71 @@ Item {
     x: 0
     y:0
 
+    Image {
+        id: refresh
+        rotation: 0
+        scale: 0.7
+        x: root.width - refresh.width
+        source: "../images/refresh.png"
+    }
+    Rectangle {
+        id: rec_r
+        width: refresh.width * 0.7
+        height: refresh.height * 0.7
+        x: root.width - refresh.width * 0.85
+        y: 17
+        radius: 10
+        color: state === "InMouse" ? "#309c88ff" : "transparent"
+        state: "OutMouse"
+//        anchors.fill: refresh
+        states: [
+            State {
+                name: "OutMouse"
+                PropertyChanges {
+                    target: rec_r; color: "transparent"
+                }
+            },
+            State {
+                name: "InMouse"
+                PropertyChanges {
+                    target: rec_r; color: "#189c88ff"
+                }
+            },
+            State {
+                name: "Clicked"
+                PropertyChanges {
+                    target: rec_r; color: "#189c88ff"; //159c88ff
+                }
+            }
+        ]
+        MouseArea {
+            anchors.fill: rec_r
+            hoverEnabled: true
+            onEntered: {
+                rec_r.state = "InMouse";
+                console.log("Ici");
+            }
+            onClicked: {
+                _left.state = "OutMouse";
+                _middle.state = "OutMouse";
+                _right.state = "Out";
+                rec_r.state = "Clicked";
+            }
+            onExited: {
+                rec_r.state = "OutMouse"
+            }
+        }
+        NumberAnimation {
+            target: refresh
+            running: rec_r.state === "InMouse" ? true : false
+            property: "rotation"
+            from: 0
+            to: 180
+            duration: 500
+//            easing.type: Easing.InOutQuad
+        }
 
+    }
 
     Rectangle {
         width: parent.width
@@ -29,6 +95,8 @@ Item {
         Rectangle {
             id: rect
             anchors.centerIn: parent
+            implicitHeight: 200 + 100
+            implicitWidth: 600 +300
             height: 200
             radius: 10
             width: 600
@@ -37,7 +105,9 @@ Item {
                 id: general_1
                 width: rect.width
                 height: rect.height
+
                 Text {
+                    id: item_log
                     anchors.centerIn: general_1
                     text: qsTr("Commençer par importer le fichier <b>log</b> pour les analyses.")
                     color: "#a8000000"
@@ -45,15 +115,75 @@ Item {
                     font.italic: true
                     visible: true
                 }
-//                Select {
-//                    id: switch1
-//                    text: "s1"
+                Item {
+                    id: item_config
+                    anchors.fill: parent
+                    visible: false
+                    Row {
+                        anchors.centerIn: parent
+                        Switch {
+                            id: select1
+                            text: "Afficher le process"
+                            background: Rectangle {
+                                color: select1.down ? "#289c88ff" : "#fff"
+                                radius: 20
+                            }
+                            TapHandler {
+                                id: handler1
+                                onTapped: {
+                                     console.log("state1 == " + select1.checked + ", state2 == " + select2.checked);
+                                }
+                            }
 
-//                }
-//                Select {
+                        }
+                        Switch {
+                            id: select2
+                            text: "Sauvegarder l'analyse"
+                            background: Rectangle {
+                                color: select2.down ? "#289c88ff" : "#fff"
+                                radius: 20
+                            }
+                            TapHandler {
+                                id: handler2
+                                onTapped: {
+                                     console.log("state1 == " + select1.checked + "; state2 == " + select2.checked);
+                                }
+                            }
+                        }
+                    }
+                    Text {
+                        id: trans
+                        text: qsTr("Appuyer sur le boutton <b>Lancer</b> pour analyser.")
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        y: 150
+                        font.pointSize: 15
+                        font.italic: true
+                        visible: true
+                    }
+                }
 
-//                }
             }
+            //==================================
+            NumberAnimation {
+                target: rect
+                running: (_right.state === "Out") ? true : false
+                property: "height"
+                from: rect.height
+                to: rect.height - 100
+                duration: 500
+                easing.type: Easing.InOutQuad
+            }
+
+            NumberAnimation {
+                target: rect
+                running: (_right.state === "Out") ? true : false
+                property: "width"
+                from: rect.width
+                to: rect.width - 300
+                duration: 500
+                easing.type: Easing.InOutQuad
+            }
+
         }
         DropShadow {
         anchors.fill: rect
@@ -170,7 +300,8 @@ Item {
                             if (_left.state === "Clicked"){
                                 _left.state = "Clicked";
                             }else{
-                                _left.state = "InMouse"
+                                _left.state = "InMouse";
+                                console.log("Ici");
                             }
                         }
                         onExited: {
@@ -210,16 +341,22 @@ Item {
 
 
                 onAccepted: {
-                    console.log("You choose: " + fd.file)
-                    if (check(fd.file)) {
+
+                    if (Logic.check(fd.file)) {
+                        console.log("You choose: " + fd.file)
                         _left.state = "Clicked";
+                        _middle.state = "Clicked"
+                        item_log.visible = false;
+                        item_config.visible = true;
                     }
                 }
                 onRejected: {
                     console.log("Cancelled")
                     _left.state = "OutMouse";
+                    _middle.state = "OutMouse";
+                    _right.state = "OutMouse"
                 }
-               Component.onCompleted: visible = false
+               Component.onCompleted: visible = false;
             }
 
 
@@ -338,7 +475,7 @@ Item {
             }
             // ============================================================================
 
-            // ===================================config====================================
+            // ===================================lancer====================================
             Item {
                 height: 220
                 width: 200
@@ -401,6 +538,12 @@ Item {
                             }
                         },
                         State {
+                            name: "Out"
+                            PropertyChanges {
+//                                target: _right; color: "transparent"
+                            }
+                        },
+                        State {
                             name: "InMouse"
                             PropertyChanges {
                                 target: _right; color: "#189c88ff"
@@ -434,22 +577,39 @@ Item {
                         }
                         onClicked: {
                             if(_middle.state === "Clicked"){
-                             _right.state = "Clicked";
+                                _right.state = "Clicked";
+                                item_config.visible = false;
                            }
                         }
                     }
+                    NumberAnimation {
+                        target: rect
+                        running: _right.state === "Clicked" ? true : false
+                        property: "height"
+                        from: rect.height
+                        to: rect.height + 100
+                        duration: 500
+                        easing.type: Easing.InOutQuad
+                    }
+
+                    NumberAnimation {
+                        target: rect
+                        running:  _right.state === "Clicked" ? true : false
+                        property: "width"
+                        from: rect.width
+                        to: rect.width + 300
+                        duration: 500
+                        easing.type: Easing.InOutQuad
+                    }
+                    // ==========reverse =====================
+
                 }
                 // ==============================
             }
             // ============================================================================
 
-
         }
 
-
     }
-
-
-
 
 }
