@@ -1,11 +1,14 @@
 import QtQuick 2.15
 import QtGraphicalEffects 1.0
+//import QtQuick.Dialogs 1.2
+import Qt.labs.platform 1.1
 
 Item {
     width: root.width
     height: root.height
     x: 0
     y:0
+
 
 
     Rectangle {
@@ -40,7 +43,16 @@ Item {
                     color: "#a8000000"
                     font.pointSize: 15
                     font.italic: true
+                    visible: true
                 }
+//                Select {
+//                    id: switch1
+//                    text: "s1"
+
+//                }
+//                Select {
+
+//                }
             }
         }
         DropShadow {
@@ -50,6 +62,7 @@ Item {
         verticalOffset: 5
         radius: 8
         samples: 17
+        width: 640
         color: "#80000000"
         source: rect
         }
@@ -70,6 +83,7 @@ Item {
             height: roundRect.height
             spacing: 200
             x: root.width * 0.11
+
 
             // ================================log======================================
             Item {
@@ -169,12 +183,45 @@ Item {
                         }
                         onClicked: {
                             _left.state = "Clicked";
+                            fd.visible = true;
+//                            fd.open();
                         }
                     }
                 }
+                Rectangle {
+                    id: rect12
+                    width: 170
+                    height: 10
+                    color: _middle.state === "Clicked" ? "#189c88ff" : "transparent"
+                    x: _left.width - 15
+                    y: _left.height / 2
+
+                }
+
                 // ==============================
             }
             // ============================================================================
+            FileDialog {
+                id: fd
+                title: "Please choose a file"
+                nameFilters: ["Image files (*.jpg *.png)", "All files (*)"]
+//                folder: shortcuts.home
+        //        visible: false
+
+
+                onAccepted: {
+                    console.log("You choose: " + fd.file)
+                    if (check(fd.file)) {
+                        _left.state = "Clicked";
+                    }
+                }
+                onRejected: {
+                    console.log("Cancelled")
+                    _left.state = "OutMouse";
+                }
+               Component.onCompleted: visible = false
+            }
+
 
             // ===================================config====================================
             Item {
@@ -273,9 +320,19 @@ Item {
                         onClicked: {
                             if(_left.state === "Clicked"){
                              _middle.state = "Clicked";
+
                            }
                         }
                     }
+                }
+                Rectangle {
+                    id: rect23
+                    width: 170
+                    height: 10
+                    color: _right.state === "Clicked" ? "#189c88ff" : "transparent"
+                    x: _middle.width - 15
+                    y: _middle.height / 2
+
                 }
                 // ==============================
             }
