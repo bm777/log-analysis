@@ -192,6 +192,16 @@ Item {
                         text: bridge.data1
                         y: -20
                     }
+                    NumberAnimation {
+                        target: text_last
+                        running: last.visible
+                        property: "value"
+                        from: 0
+                        to: bridge.data2
+                        duration: 3000
+                        easing.type: Easing.InOutQuad
+                    }
+                    
                     ProgressBar {
                         id: progress
                         value: bridge.data2
