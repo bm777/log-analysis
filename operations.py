@@ -31,7 +31,7 @@ def percentage(severities, occurences=[]):
                 count_critical += 1
         counters = count_minor+count_major+count_warning+count_critical
         percent = count_minor*10 +count_major*30 +count_warning*50 +count_critical*90
-        return percent / counters
+        return float(str(round(percent / counters, 2)))
     else:
         for i in range(len(severities)):
             if severities[i] == "Minor":
@@ -82,7 +82,7 @@ class Worker(QObject):
 
     def __init__(self):
         QObject.__init__(self)
-        self._d1 = "Hello !"
+        self._d1 = "..."
         self._d2 = 0.0
         self._d3 = ""
 

@@ -3,6 +3,7 @@ import QtGraphicalEffects 1.0
 //import QtQuick.Dialogs 1.2
 import QtQuick.Controls 2.15
 import Qt.labs.platform 1.1
+//import QtQuick.Controls.Styles 2.15
 import "operations.js" as Logic
 
 Item {
@@ -69,6 +70,7 @@ Item {
                 }
                 last.visible = false;
                 rec_r.state = "Clicked";
+                progress.value = 0.0
             }
             onExited: {
                 rec_r.state = "OutMouse"
@@ -143,7 +145,7 @@ Item {
                         anchors.centerIn: parent
                         Switch {
                             id: select1
-                            text: "Afficher le process"
+                            text: "Utiliser les threads"
                             background: Rectangle {
                                 color: select1.down ? "#289c88ff" : "#fff"
                                 radius: 20
@@ -189,25 +191,36 @@ Item {
                     Text {
                         id: text_last
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text: bridge.data1
+                        text: select2.checked ? bridge.data1 + "%" : bridge.data1
                         y: -20
+                        Behavior on text {
+                            NumberAnimation {running: select1.checked ? true : false; duration: select1.checked ? 2000 : 3000}
+                        }
                     }
+
+
                     ProgressBar {
                         id: progress
                         value: bridge.data2
                         anchors.horizontalCenter: parent.horizontalCenter
                         width: 500
                         y: 50
+                        contentItem: Rectangle {
+                                        anchors.left: progress.left
+                                        anchors.verticalCenter: progress.verticalCenter
+                                        width: progress.visualPosition * progress.width
+                                        height: progress.height
+                                        radius: 2
+                                        color: "#780000ff"
+                                        //z: 10
+                                    }
+
+                        Behavior on value {
+                            NumberAnimation {duration: select1.checked ? 2000 : 3000}
+                        }
                     }
-//                    NumberAnimation {
-//                        target: progress
-//                        running: last.visible
-//                        property: "value"
-//                        from: 0
-//                        to: bridge.data2
-//                        duration: 3000
-//                        easing.type: Easing.InOutQuad
-//                    }
+
+
                 }
 
             }
