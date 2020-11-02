@@ -191,7 +191,8 @@ Item {
                     Text {
                         id: text_last
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text: select2.checked ? bridge.data1 + "%" : bridge.data1
+                        text: select2.checked ? "<b>"+bridge.data1+"</b>" + "% de panne !" : "<b>"+bridge.data1+"</b>" + " pourcent de panne !"
+                        font.pointSize: 25
                         y: -20
                         Behavior on text {
                             NumberAnimation {running: select1.checked ? true : false; duration: select1.checked ? 2000 : 3000}
