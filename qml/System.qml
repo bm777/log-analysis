@@ -69,6 +69,8 @@ Item {
                    item_log.visible = true;
                 }
                 last.visible = false;
+                item_log.visible = true;
+                item_config.visible=false;
                 rec_r.state = "Clicked";
                 progress.value = 0.0
             }
